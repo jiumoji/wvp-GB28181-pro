@@ -100,7 +100,7 @@ public class LogController {
     @ApiImplicitParams({})
     public ResponseEntity<WVPResult<String>> clear() {
 
-        int count = logService.clear();
+        boolean count = logService.clear();
         WVPResult wvpResult = new WVPResult();
         wvpResult.setCode(0);
         wvpResult.setMsg("success");

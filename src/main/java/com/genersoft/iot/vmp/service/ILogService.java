@@ -1,12 +1,13 @@
 package com.genersoft.iot.vmp.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.genersoft.iot.vmp.storager.dao.dto.LogDto;
 import com.github.pagehelper.PageInfo;
 
 /**
  * 系统日志
  */
-public interface ILogService {
+public interface ILogService  extends IService<LogDto>{
 
     /**
      * 查询日志
@@ -29,6 +30,6 @@ public interface ILogService {
     /**
      * 清空
      */
-    int clear();
+    boolean clear();
 
 }

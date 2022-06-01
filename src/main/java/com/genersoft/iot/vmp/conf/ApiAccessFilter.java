@@ -51,7 +51,7 @@ public class ApiAccessFilter extends OncePerRequestFilter {
 
             LogDto logDto = new LogDto();
             logDto.setName(uriName);
-            logDto.setUsername(username);
+            logDto.setUserName(username);
             logDto.setAddress(servletRequest.getRemoteAddr());
             logDto.setResult(HttpStatus.valueOf(servletResponse.getStatus()).toString());
             logDto.setTiming(System.currentTimeMillis() - start);
