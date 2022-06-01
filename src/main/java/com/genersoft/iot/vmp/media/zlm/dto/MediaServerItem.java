@@ -27,7 +27,7 @@ import java.util.HashMap;
     @Data
     @EqualsAndHashCode(callSuper = false)
     @Accessors(chain = true)
-    @TableName(value="media_server_new")
+    @TableName(value="media_server")
     public class MediaServerItem implements Serializable{
 
         private static final long serialVersionUID = 1L;
