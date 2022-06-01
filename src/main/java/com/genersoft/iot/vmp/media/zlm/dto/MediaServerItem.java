@@ -1,323 +1,129 @@
 package com.genersoft.iot.vmp.media.zlm.dto;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.genersoft.iot.vmp.gb28181.session.SsrcConfig;
 import com.genersoft.iot.vmp.media.zlm.ZLMServerConfig;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 import org.springframework.util.StringUtils;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class MediaServerItem{
-
-    private String id;
-
-    private String ip;
-
-    private String hookIp;
-
-    private String sdpIp;
-
-    private String streamIp;
-
-    private int httpPort;
-
-    private int httpSSlPort;
-
-    private int rtmpPort;
-
-    private int rtmpSSlPort;
-
-    private int rtpProxyPort;
-
-    private int rtspPort;
-
-    private int rtspSSLPort;
-
-    private boolean autoConfig;
-
-    private String secret;
-
-    private int streamNoneReaderDelayMS;
-
-    private int hookAliveInterval;
-
-    private boolean rtpEnable;
-
-    private boolean status;
-
-    private String rtpPortRange;
-
-    private String sendRtpPortRange;
-
-    private int recordAssistPort;
-
-    private String createTime;
-
-    private String updateTime;
-
-    private String lastKeepaliveTime;
-
-    private boolean defaultServer;
-
-    private SsrcConfig ssrcConfig;
-
-    private int currentPort;
-
-
     /**
-     * 每一台ZLM都有一套独立的SSRC列表
-     * 在ApplicationCheckRunner里对mediaServerSsrcMap进行初始化
+     * <p>
+     *
+     * </p>
+     *
+     * @author n
+     * @since 2022-05-31
      */
-    private HashMap<String, SsrcConfig> mediaServerSsrcMap;
+    @Data
+    @EqualsAndHashCode(callSuper = false)
+    @Accessors(chain = true)
+    @TableName(value="media_server_new")
+    public class MediaServerItem implements Serializable{
 
-    public MediaServerItem() {
-    }
+        private static final long serialVersionUID = 1L;
 
-    public MediaServerItem(ZLMServerConfig zlmServerConfig, String sipIp) {
-        id = zlmServerConfig.getGeneralMediaServerId();
-        ip = zlmServerConfig.getIp();
-        hookIp = StringUtils.isEmpty(zlmServerConfig.getHookIp())? sipIp: zlmServerConfig.getHookIp();
-        sdpIp = StringUtils.isEmpty(zlmServerConfig.getSdpIp())? zlmServerConfig.getIp(): zlmServerConfig.getSdpIp();
-        streamIp = StringUtils.isEmpty(zlmServerConfig.getStreamIp())? zlmServerConfig.getIp(): zlmServerConfig.getStreamIp();
-        httpPort = zlmServerConfig.getHttpPort();
-        httpSSlPort = zlmServerConfig.getHttpSSLport();
-        rtmpPort = zlmServerConfig.getRtmpPort();
-        rtmpSSlPort = zlmServerConfig.getRtmpSslPort();
-        rtpProxyPort = zlmServerConfig.getRtpProxyPort();
-        rtspPort = zlmServerConfig.getRtspPort();
-        rtspSSLPort = zlmServerConfig.getRtspSSlport();
-        autoConfig = true; // 默认值true;
-        secret = zlmServerConfig.getApiSecret();
-        streamNoneReaderDelayMS = zlmServerConfig.getGeneralStreamNoneReaderDelayMS();
-        hookAliveInterval = zlmServerConfig.getHookAliveInterval();
-        rtpEnable = false; // 默认使用单端口;直到用户自己设置开启多端口
-        rtpPortRange = zlmServerConfig.getPortRange().replace("_",","); // 默认使用30000,30500作为级联时发送流的端口号
-        sendRtpPortRange = "30000,30500"; // 默认使用30000,30500作为级联时发送流的端口号
-        recordAssistPort = 0; // 默认关闭
+        @TableId(value = "id", type = IdType.ASSIGN_ID)
+        private String id;
 
-    }
+        private String ip;
 
-    public String getId() {
-        return id;
-    }
+        private String hookIp;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+        private String sdpIp;
 
-    public String getIp() {
-        return ip;
-    }
+        private String streamIp;
 
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
+        private Integer httpPort;
+        @TableField(value = "http_ssl_port")
+        private Integer httpSSlPort;
 
-    public String getHookIp() {
-        return hookIp;
-    }
+        private Integer rtmpPort;
 
-    public void setHookIp(String hookIp) {
-        this.hookIp = hookIp;
-    }
+        @TableField(value = "rtmp_ssl_port")
+        private Integer rtmpSSlPort;
 
-    public String getSdpIp() {
-        return sdpIp;
-    }
+        private Integer rtpProxyPort;
 
-    public void setSdpIp(String sdpIp) {
-        this.sdpIp = sdpIp;
-    }
+        private Integer rtspPort;
+        @TableField(value = "rtsp_ssl_port")
+        private Integer rtspSSLPort;
 
-    public String getStreamIp() {
-        return streamIp;
-    }
+        private boolean autoConfig;
 
-    public void setStreamIp(String streamIp) {
-        this.streamIp = streamIp;
-    }
+        private String secret;
+        @TableField(value = "stream_none_reader_delay_ms")
+        private Integer streamNoneReaderDelayMS;
 
-    public int getHttpPort() {
-        return httpPort;
-    }
+        private boolean rtpEnable;
 
-    public void setHttpPort(int httpPort) {
-        this.httpPort = httpPort;
-    }
+        private String rtpPortRange;
 
-    public int getHttpSSlPort() {
-        return httpSSlPort;
-    }
+        private String sendRtpPortRange;
 
-    public void setHttpSSlPort(int httpSSlPort) {
-        this.httpSSlPort = httpSSlPort;
-    }
+        private Integer recordAssistPort;
 
-    public int getRtmpPort() {
-        return rtmpPort;
-    }
+        private boolean defaultServer;
 
-    public void setRtmpPort(int rtmpPort) {
-        this.rtmpPort = rtmpPort;
-    }
+        private String createTime;
 
-    public int getRtmpSSlPort() {
-        return rtmpSSlPort;
-    }
+        private String updateTime;
 
-    public void setRtmpSSlPort(int rtmpSSlPort) {
-        this.rtmpSSlPort = rtmpSSlPort;
-    }
+        private Integer hookAliveInterval;
 
-    public int getRtpProxyPort() {
-        return rtpProxyPort;
-    }
 
-    public void setRtpProxyPort(int rtpProxyPort) {
-        this.rtpProxyPort = rtpProxyPort;
-    }
+        @ApiModelProperty(hidden = true)
+        @TableField(exist = false)
+        private SsrcConfig ssrcConfig;
+        @ApiModelProperty(hidden = true)
+        @TableField(exist = false)
+        private int currentPort;
+        @ApiModelProperty(hidden = true)
+        @TableField(exist = false)
+        private boolean status;
+        @ApiModelProperty(hidden = true)
+        @TableField(exist = false)
+        private String lastKeepaliveTime;
+        /**
+         * 每一台ZLM都有一套独立的SSRC列表
+         * 在ApplicationCheckRunner里对mediaServerSsrcMap进行初始化
+         */
+        @ApiModelProperty(hidden = true)
+        @TableField(exist = false)
+        private HashMap<String, SsrcConfig> mediaServerSsrcMap;
 
-    public int getRtspPort() {
-        return rtspPort;
-    }
+        public MediaServerItem() {
+        }
 
-    public void setRtspPort(int rtspPort) {
-        this.rtspPort = rtspPort;
-    }
-
-    public int getRtspSSLPort() {
-        return rtspSSLPort;
-    }
-
-    public void setRtspSSLPort(int rtspSSLPort) {
-        this.rtspSSLPort = rtspSSLPort;
-    }
-
-    public boolean isAutoConfig() {
-        return autoConfig;
-    }
-
-    public void setAutoConfig(boolean autoConfig) {
-        this.autoConfig = autoConfig;
-    }
-
-    public String getSecret() {
-        return secret;
-    }
-
-    public void setSecret(String secret) {
-        this.secret = secret;
-    }
-
-    public int getStreamNoneReaderDelayMS() {
-        return streamNoneReaderDelayMS;
-    }
-
-    public void setStreamNoneReaderDelayMS(int streamNoneReaderDelayMS) {
-        this.streamNoneReaderDelayMS = streamNoneReaderDelayMS;
-    }
-
-    public boolean isRtpEnable() {
-        return rtpEnable;
-    }
-
-    public void setRtpEnable(boolean rtpEnable) {
-        this.rtpEnable = rtpEnable;
-    }
-
-    public String getRtpPortRange() {
-        return rtpPortRange;
-    }
-
-    public void setRtpPortRange(String rtpPortRange) {
-        this.rtpPortRange = rtpPortRange;
-    }
-
-    public int getRecordAssistPort() {
-        return recordAssistPort;
-    }
-
-    public void setRecordAssistPort(int recordAssistPort) {
-        this.recordAssistPort = recordAssistPort;
-    }
-
-    public boolean isDefaultServer() {
-        return defaultServer;
-    }
-
-    public void setDefaultServer(boolean defaultServer) {
-        this.defaultServer = defaultServer;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public HashMap<String, SsrcConfig> getMediaServerSsrcMap() {
-        return mediaServerSsrcMap;
-    }
-
-    public void setMediaServerSsrcMap(HashMap<String, SsrcConfig> mediaServerSsrcMap) {
-        this.mediaServerSsrcMap = mediaServerSsrcMap;
-    }
-
-    public SsrcConfig getSsrcConfig() {
-        return ssrcConfig;
-    }
-
-    public void setSsrcConfig(SsrcConfig ssrcConfig) {
-        this.ssrcConfig = ssrcConfig;
-    }
-
-    public int getCurrentPort() {
-        return currentPort;
-    }
-
-    public void setCurrentPort(int currentPort) {
-        this.currentPort = currentPort;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public String getLastKeepaliveTime() {
-        return lastKeepaliveTime;
-    }
-
-    public void setLastKeepaliveTime(String lastKeepaliveTime) {
-        this.lastKeepaliveTime = lastKeepaliveTime;
-    }
-
-    public String getSendRtpPortRange() {
-        return sendRtpPortRange;
-    }
-
-    public void setSendRtpPortRange(String sendRtpPortRange) {
-        this.sendRtpPortRange = sendRtpPortRange;
-    }
-
-    public int getHookAliveInterval() {
-        return hookAliveInterval;
-    }
-
-    public void setHookAliveInterval(int hookAliveInterval) {
-        this.hookAliveInterval = hookAliveInterval;
-    }
-}
+        public MediaServerItem(ZLMServerConfig zlmServerConfig,String sipIp){
+            id=zlmServerConfig.getGeneralMediaServerId();
+            ip=zlmServerConfig.getIp();
+            hookIp=StringUtils.isEmpty(zlmServerConfig.getHookIp())?sipIp:zlmServerConfig.getHookIp();
+            sdpIp=StringUtils.isEmpty(zlmServerConfig.getSdpIp())?zlmServerConfig.getIp():zlmServerConfig.getSdpIp();
+            streamIp=StringUtils.isEmpty(zlmServerConfig.getStreamIp())?zlmServerConfig.getIp():zlmServerConfig.getStreamIp();
+            httpPort=zlmServerConfig.getHttpPort();
+            httpSSlPort=zlmServerConfig.getHttpSSLport();
+            rtmpPort=zlmServerConfig.getRtmpPort();
+            rtmpSSlPort=zlmServerConfig.getRtmpSslPort();
+            rtpProxyPort=zlmServerConfig.getRtpProxyPort();
+            rtspPort=zlmServerConfig.getRtspPort();
+            rtspSSLPort=zlmServerConfig.getRtspSSlport();
+            autoConfig=true; // 默认值true;
+            secret=zlmServerConfig.getApiSecret();
+            streamNoneReaderDelayMS=zlmServerConfig.getGeneralStreamNoneReaderDelayMS();
+            hookAliveInterval=zlmServerConfig.getHookAliveInterval();
+            rtpEnable=false; // 默认使用单端口;直到用户自己设置开启多端口
+            rtpPortRange=zlmServerConfig.getPortRange().replace("_",","); // 默认使用30000,30500作为级联时发送流的端口号
+            sendRtpPortRange="30000,30500"; // 默认使用30000,30500作为级联时发送流的端口号
+            recordAssistPort=0; // 默认关闭
+           }
+        }
