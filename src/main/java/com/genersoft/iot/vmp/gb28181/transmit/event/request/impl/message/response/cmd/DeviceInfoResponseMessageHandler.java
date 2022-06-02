@@ -69,7 +69,7 @@ public class DeviceInfoResponseMessageHandler extends SIPRequestProcessorParent 
     public void handForDevice(RequestEvent evt, Device device, Element rootElement) {
         logger.debug("接收到DeviceInfo应答消息");
         // 检查设备是否存在， 不存在则不回复
-        if (device == null || device.getOnline() == 0) {
+        if (device == null || "0".equals(device.getOnline())) {
             logger.warn("[接收到DeviceInfo应答消息,但是设备已经离线]：" + (device != null ? device.getDeviceId():"" ));
             return;
         }

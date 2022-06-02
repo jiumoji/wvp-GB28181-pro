@@ -1,7 +1,9 @@
 package com.genersoft.iot.vmp.gb28181.bean;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,6 +25,8 @@ import java.io.Serializable;
 public class Device implements Serializable{
 
 
+	@TableId(value = "id", type = IdType.AUTO)
+	private String id;
 	/**
 	 * 设备Id
 	 */
@@ -80,7 +84,7 @@ public class Device implements Serializable{
 	/**
 	 * 在线
 	 */
-	private int online;
+	private String online;
 
 
 	/**
