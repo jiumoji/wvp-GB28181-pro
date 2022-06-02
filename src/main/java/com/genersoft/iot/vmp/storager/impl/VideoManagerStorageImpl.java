@@ -421,7 +421,7 @@ public class VideoManagerStorageImpl implements IVideoManagerStorage {
 		logger.info("更新设备在线: " + deviceId);
 		redisCatchStorage.updateDevice(device);
 		UpdateWrapper<Device> updateWrapper = new UpdateWrapper<>();
-		updateWrapper.set("device_id",device.getDeviceId());
+		updateWrapper.eq("device_id",device.getDeviceId());
 		final int update=deviceMapper.update(device,updateWrapper);
 
 		return update > 0;
@@ -443,7 +443,7 @@ public class VideoManagerStorageImpl implements IVideoManagerStorage {
 		device.setOnline("0");
 		redisCatchStorage.updateDevice(device);
 		UpdateWrapper<Device> updateWrapper = new UpdateWrapper<>();
-		updateWrapper.set("device_id",device.getDeviceId());
+		updateWrapper.eq("device_id",device.getDeviceId());
 		final int update=deviceMapper.update(device,updateWrapper);
 		return update> 0;
 	}
