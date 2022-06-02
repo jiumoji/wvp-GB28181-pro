@@ -1,5 +1,7 @@
 package com.genersoft.iot.vmp.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.genersoft.iot.vmp.conf.DynamicTask;
 import com.genersoft.iot.vmp.gb28181.bean.Device;
 import com.genersoft.iot.vmp.gb28181.bean.SsrcTransaction;
@@ -28,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  * 设备业务（目录订阅）
  */
 @Service
-public class DeviceServiceImpl implements IDeviceService {
+public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> implements IDeviceService {
 
     private final static Logger logger = LoggerFactory.getLogger(DeviceServiceImpl.class);
 
@@ -77,12 +79,14 @@ public class DeviceServiceImpl implements IDeviceService {
         if (device.getCreateTime() == null) {
             device.setCreateTime(now);
             logger.info("[设备上线,首次注册]: {}，查询设备信息以及通道信息", device.getDeviceId());
-            deviceMapper.add(device);
+            deviceMapper.insert(device);
             redisCatchStorage.updateDevice(device);
             commander.deviceInfoQuery(device);
             sync(device);
         }else {
-            deviceMapper.update(device);
+            UpdateWrapper<Device> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.set("device_id",device.getDeviceId());
+            deviceMapper.update(device,updateWrapper);
             redisCatchStorage.updateDevice(device);
         }
 
@@ -110,7 +114,9 @@ public class DeviceServiceImpl implements IDeviceService {
         dynamicTask.stop(registerExpireTaskKey);
         device.setOnline(0);
         redisCatchStorage.updateDevice(device);
-        deviceMapper.update(device);
+        UpdateWrapper<Device> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set("device_id",device.getDeviceId());
+        deviceMapper.update(device,updateWrapper);
         // 离线释放所有ssrc
         List<SsrcTransaction> ssrcTransactions = streamSession.getSsrcTransactionForAll(deviceId, null, null, null);
         if (ssrcTransactions != null && ssrcTransactions.size() > 0) {
@@ -282,7 +288,13 @@ public class DeviceServiceImpl implements IDeviceService {
         device.setUpdateTime(now);
         device.setCharset(device.getCharset().toUpperCase());
         device.setUpdateTime(DateUtil.getNow());
-        if (deviceMapper.update(device) > 0) {
+
+
+        UpdateWrapper<Device> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set("device_id",device.getDeviceId());
+        final int update=deviceMapper.update(device,updateWrapper);
+
+        if (update > 0) {
             redisCatchStorage.updateDevice(device);
         }
     }

@@ -1,5 +1,6 @@
 package com.genersoft.iot.vmp.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.genersoft.iot.vmp.gb28181.bean.Device;
 import com.genersoft.iot.vmp.gb28181.bean.SyncStatus;
 
@@ -9,9 +10,9 @@ import java.util.List;
  * 设备相关业务处理
  * @author lin
  */
-public interface IDeviceService {
+public interface IDeviceService extends IService<Device>{
 
-    /**
+        /**
      * 设备上线
      * @param device 设备信息
      */

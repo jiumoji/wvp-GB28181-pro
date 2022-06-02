@@ -1,7 +1,27 @@
 package com.genersoft.iot.vmp.gb28181.bean;
 
 
-public class Device {
+import com.baomidou.mybatisplus.annotation.TableField;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+
+/**
+ * <p>
+ *
+ * </p>
+ *
+ * @author n
+ * @since 2022-06-02
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+public class Device implements Serializable{
+
 
 	/**
 	 * 设备Id
@@ -77,6 +97,7 @@ public class Device {
 	/**
 	 * 通道个数
 	 */
+	@TableField(exist = false)
 	private int channelCount;
 
 	/**
@@ -97,6 +118,7 @@ public class Device {
 	/**
 	 * 设备使用的媒体id, 默认为null
 	 */
+	@TableField(exist = false)
 	private String mediaServerId;
 
 	/**
@@ -130,195 +152,4 @@ public class Device {
 	private boolean ssrcCheck;
 
 
-	public String getDeviceId() {
-		return deviceId;
-	}
-
-	public void setDeviceId(String deviceId) {
-		this.deviceId = deviceId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getManufacturer() {
-		return manufacturer;
-	}
-
-	public void setManufacturer(String manufacturer) {
-		this.manufacturer = manufacturer;
-	}
-
-	public String getModel() {
-		return model;
-	}
-
-	public void setModel(String model) {
-		this.model = model;
-	}
-
-	public String getFirmware() {
-		return firmware;
-	}
-
-	public void setFirmware(String firmware) {
-		this.firmware = firmware;
-	}
-
-	public String getTransport() {
-		return transport;
-	}
-
-	public void setTransport(String transport) {
-		this.transport = transport;
-	}
-
-	public String getStreamMode() {
-		return streamMode;
-	}
-
-	public void setStreamMode(String streamMode) {
-		this.streamMode = streamMode;
-	}
-
-	public String getIp() {
-		return ip;
-	}
-
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
-
-	public int getPort() {
-		return port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
-	}
-
-	public String getHostAddress() {
-		return hostAddress;
-	}
-
-	public void setHostAddress(String hostAddress) {
-		this.hostAddress = hostAddress;
-	}
-
-	public int getOnline() {
-		return online;
-	}
-
-	public void setOnline(int online) {
-		this.online = online;
-	}
-
-	public int getChannelCount() {
-		return channelCount;
-	}
-
-	public void setChannelCount(int channelCount) {
-		this.channelCount = channelCount;
-	}
-
-	public String getRegisterTime() {
-		return registerTime;
-	}
-
-	public void setRegisterTime(String registerTime) {
-		this.registerTime = registerTime;
-	}
-
-	public String getKeepaliveTime() {
-		return keepaliveTime;
-	}
-
-	public void setKeepaliveTime(String keepaliveTime) {
-		this.keepaliveTime = keepaliveTime;
-	}
-
-	public int getExpires() {
-		return expires;
-	}
-
-	public void setExpires(int expires) {
-		this.expires = expires;
-	}
-
-	public String getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
-	}
-
-	public String getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(String updateTime) {
-		this.updateTime = updateTime;
-	}
-
-	public String getMediaServerId() {
-		return mediaServerId;
-	}
-
-	public void setMediaServerId(String mediaServerId) {
-		this.mediaServerId = mediaServerId;
-	}
-
-	public String getCharset() {
-		return charset;
-	}
-
-	public void setCharset(String charset) {
-		this.charset = charset;
-	}
-
-	public int getSubscribeCycleForCatalog() {
-		return subscribeCycleForCatalog;
-	}
-
-	public void setSubscribeCycleForCatalog(int subscribeCycleForCatalog) {
-		this.subscribeCycleForCatalog = subscribeCycleForCatalog;
-	}
-
-	public int getSubscribeCycleForMobilePosition() {
-		return subscribeCycleForMobilePosition;
-	}
-
-	public void setSubscribeCycleForMobilePosition(int subscribeCycleForMobilePosition) {
-		this.subscribeCycleForMobilePosition = subscribeCycleForMobilePosition;
-	}
-
-	public int getMobilePositionSubmissionInterval() {
-		return mobilePositionSubmissionInterval;
-	}
-
-	public void setMobilePositionSubmissionInterval(int mobilePositionSubmissionInterval) {
-		this.mobilePositionSubmissionInterval = mobilePositionSubmissionInterval;
-	}
-
-	public int getSubscribeCycleForAlarm() {
-		return subscribeCycleForAlarm;
-	}
-
-	public void setSubscribeCycleForAlarm(int subscribeCycleForAlarm) {
-		this.subscribeCycleForAlarm = subscribeCycleForAlarm;
-	}
-
-	public boolean isSsrcCheck() {
-		return ssrcCheck;
-	}
-
-	public void setSsrcCheck(boolean ssrcCheck) {
-		this.ssrcCheck = ssrcCheck;
-	}
 }
