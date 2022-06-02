@@ -73,7 +73,7 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
 
         }
         device.setUpdateTime(now);
-        device.setOnline(1);
+        device.setOnline("1");
 
         // 第一次上线
         if (device.getCreateTime() == null) {
@@ -112,7 +112,7 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
         }
         String registerExpireTaskKey = registerExpireTaskKeyPrefix + deviceId;
         dynamicTask.stop(registerExpireTaskKey);
-        device.setOnline(0);
+        device.setOnline("0");
         redisCatchStorage.updateDevice(device);
         UpdateWrapper<Device> updateWrapper = new UpdateWrapper<>();
         updateWrapper.set("device_id",device.getDeviceId());
@@ -224,7 +224,7 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
 
     @Override
     public void checkDeviceStatus(Device device) {
-        if (device == null || device.getOnline() == 0) {
+        if (device == null || "0".equals(device.getOnline())) {
             return;
         }
         sipCommander.deviceStatusQuery(device, null);

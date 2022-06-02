@@ -9,4 +9,9 @@ import java.util.List;
 
 public interface MediaServerMapper extends BaseMapper<MediaServerItem>{
 
+
+    @Select("SELECT * FROM media_server")
+    List<MediaServerItem> queryAll();
+
+
 }
