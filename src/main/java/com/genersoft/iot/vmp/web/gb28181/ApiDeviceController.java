@@ -74,7 +74,7 @@ public class ApiDeviceController {
             deviceJsonObject.put("RecvStreamIP", "");
             deviceJsonObject.put("CatalogInterval", 3600); // 通道目录抓取周期
             deviceJsonObject.put("SubscribeInterval", device.getSubscribeCycleForCatalog()); // 订阅周期(秒), 0 表示后台不周期订阅
-            deviceJsonObject.put("Online", device.getOnline() == 1);
+            deviceJsonObject.put("Online", "1".equals(device.getOnline()));
             deviceJsonObject.put("Password", "");
             deviceJsonObject.put("MediaTransport", device.getTransport());
             deviceJsonObject.put("RemoteIP", device.getIp());
@@ -126,7 +126,7 @@ public class ApiDeviceController {
             deviceJOSNChannel.put("ID", deviceChannel.getChannelId());
             deviceJOSNChannel.put("DeviceID", device.getDeviceId());
             deviceJOSNChannel.put("DeviceName", device.getName());
-            deviceJOSNChannel.put("DeviceOnline", device.getOnline() == 1);
+            deviceJOSNChannel.put("DeviceOnline", "1".equals(device.getOnline()));
             deviceJOSNChannel.put("Channel", 0); // TODO 自定义序号
             deviceJOSNChannel.put("Name", deviceChannel.getName());
             deviceJOSNChannel.put("Custom", false);
