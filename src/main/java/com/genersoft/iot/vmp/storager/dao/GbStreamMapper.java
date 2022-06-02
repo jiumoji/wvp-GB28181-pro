@@ -15,7 +15,7 @@ import java.util.List;
 public interface GbStreamMapper {
 
     @Insert("REPLACE INTO gb_stream (app, stream, gbId, name, " +
-            "longitude, latitude, streamType, mediaServerId, status, createStamp) VALUES" +
+            "longitude, latitude, stream_type, media_server_id, status, create_stamp) VALUES" +
             "('${app}', '${stream}', '${gbId}', '${name}', " +
             "'${longitude}', '${latitude}', '${streamType}', " +
             "'${mediaServerId}', ${status}, ${createStamp})")
@@ -27,10 +27,10 @@ public interface GbStreamMapper {
             "stream=#{stream}," +
             "gbId=#{gbId}," +
             "name=#{name}," +
-            "streamType=#{streamType}," +
+            "stream_type=#{streamType}," +
             "longitude=#{longitude}, " +
             "latitude=#{latitude}," +
-            "mediaServerId=#{mediaServerId}," +
+            "media_server_id=#{mediaServerId}," +
             "status=${status} " +
             "WHERE app=#{app} AND stream=#{stream}")
     int updateByAppAndStream(GbStream gbStream);
@@ -40,12 +40,12 @@ public interface GbStreamMapper {
             "stream=#{stream}," +
             "gbId=#{gbId}," +
             "name=#{name}," +
-            "streamType=#{streamType}," +
+            "stream_type=#{streamType}," +
             "longitude=#{longitude}, " +
             "latitude=#{latitude}," +
-            "mediaServerId=#{mediaServerId}," +
+            "media_server_id=#{mediaServerId}," +
             "status=${status} " +
-            "WHERE gbStreamId=#{gbStreamId}")
+            "WHERE gb_stream_id=#{gbStreamId}")
     int update(GbStream gbStream);
 
     @Delete("DELETE FROM gb_stream WHERE app=#{app} AND stream=#{stream}")
@@ -55,15 +55,15 @@ public interface GbStreamMapper {
             "SELECT gs.* FROM gb_stream gs " +
             "WHERE " +
             "1=1 " +
-            " <if test='catalogId != null'> AND gs.gbStreamId in" +
-            "(select pgs.gbStreamId from platform_gb_stream pgs where pgs.platformId = #{platformId} and pgs.catalogId=#{catalogId})</if> " +
-            " <if test='catalogId == null'> AND gs.gbStreamId not in" +
-            "(select pgs.gbStreamId from platform_gb_stream pgs where pgs.platformId = #{platformId}) </if> " +
-            " <if test='query != null'> AND (gs.app LIKE '%${query}%' OR gs.stream LIKE '%${query}%' OR gs.gbId LIKE '%${query}%' OR gs.name LIKE '%${query}%')</if> " +
+            " <if test='catalogId != null'> AND gs.gb_stream_id in" +
+            "(select pgs.gb_stream_id from platform_gb_stream pgs where pgs.platform_id = #{platformId} and pgs.catalog_d=#{catalogId})</if> " +
+            " <if test='catalogId == null'> AND gs.gb_stream_id not in" +
+            "(select pgs.gb_stream_id from platform_gb_stream pgs where pgs.platform_id = #{platformId}) </if> " +
+            " <if test='query != null'> AND (gs.app LIKE '%${query}%' OR gs.stream LIKE '%${query}%' OR gs.gb_id LIKE '%${query}%' OR gs.name LIKE '%${query}%')</if> " +
             " <if test='pushing == true' > AND gs.status=1</if>" +
             " <if test='pushing == false' > AND gs.status=0</if>" +
-            " <if test='mediaServerId != null' > AND gs.mediaServerId=#{mediaServerId} </if>" +
-            " order by gs.gbStreamId asc " +
+            " <if test='mediaServerId != null' > AND gs.media_server_id=#{mediaServerId} </if>" +
+            " order by gs.gb_stream_id asc " +
             "</script>")
     List<GbStream> selectAll(String platformId, String catalogId, String query, Boolean pushing, String mediaServerId);
 
@@ -73,19 +73,19 @@ public interface GbStreamMapper {
     @Select("SELECT * FROM gb_stream WHERE gbId=#{gbId}")
     List<GbStream> selectByGBId(String gbId);
 
-    @Select("SELECT gs.*, pgs.platformId as platformId, pgs.catalogId as catalogId FROM gb_stream gs " +
-            "LEFT JOIN platform_gb_stream pgs ON gs.gbStreamId = pgs.gbStreamId " +
-            "WHERE gs.gbId = '${gbId}' AND pgs.platformId = '${platformId}'")
+    @Select("SELECT gs.*, pgs.platform_id as platformId, pgs.catalog_id as catalogId FROM gb_stream gs " +
+            "LEFT JOIN platform_gb_stream pgs ON gs.gb_stream_id = pgs.gb_stream_id " +
+            "WHERE gs.gb_id = '${gbId}' AND pgs.platform_id = '${platformId}'")
     GbStream queryStreamInPlatform(String platformId, String gbId);
 
-    @Select("SELECT gs.*, pgs.platformId as platformId, pgs.catalogId as catalogId FROM gb_stream gs " +
-            "LEFT JOIN platform_gb_stream pgs ON gs.gbStreamId = pgs.gbStreamId " +
-            "WHERE pgs.platformId = #{platformId}")
+    @Select("SELECT gs.*, pgs.platform_id as platformId, pgs.catalog_id as catalogId FROM gb_stream gs " +
+            "LEFT JOIN platform_gb_stream pgs ON gs.gb_stream_id = pgs.gb_stream_id " +
+            "WHERE pgs.platform_id = #{platformId}")
     List<GbStream> queryGbStreamListInPlatform(String platformId);
 
 
     @Select("SELECT gs.* FROM gb_stream gs LEFT JOIN platform_gb_stream pgs " +
-            "ON gs.gbStreamId = pgs.gbStreamId WHERE pgs.gbStreamId is NULL")
+            "ON gs.gb_stream_id = pgs.gb_stream_id WHERE pgs.gb_stream_id is NULL")
     List<GbStream> queryStreamNotInPlatform();
 
     @Update("UPDATE gb_stream " +
@@ -95,10 +95,10 @@ public interface GbStreamMapper {
 
     @Update("UPDATE gb_stream " +
             "SET status=${status} " +
-            "WHERE mediaServerId=#{mediaServerId} ")
+            "WHERE media_server_id=#{mediaServerId} ")
     void updateStatusByMediaServerId(String mediaServerId, boolean status);
 
-    @Delete("DELETE FROM gb_stream WHERE streamType=#{type} AND gbId=NULL AND mediaServerId=#{mediaServerId}")
+    @Delete("DELETE FROM gb_stream WHERE stream_type=#{type} AND gb_id=NULL AND media_server_id=#{mediaServerId}")
     void deleteWithoutGBId(String type, String mediaServerId);
 
     @Delete("<script> "+
@@ -119,8 +119,8 @@ public interface GbStreamMapper {
 
     @Insert("<script> " +
             "INSERT IGNORE into gb_stream " +
-            "(app, stream, gbId, name, " +
-            "longitude, latitude, streamType, mediaServerId, status, createStamp)" +
+            "(app, stream, gb_id, name, " +
+            "longitude, latitude, stream_type, media_server_id, status, create_stamp)" +
             "values " +
             "<foreach collection='subList' index='index' item='item' separator=','> " +
             "('${item.app}', '${item.stream}', '${item.gbId}', '${item.name}', " +
@@ -128,7 +128,7 @@ public interface GbStreamMapper {
             "'${item.mediaServerId}', ${item.status}, ${item.createStamp}) "+
             "</foreach> " +
             "</script>")
-    @Options(useGeneratedKeys = true, keyProperty = "gbStreamId", keyColumn = "gbStreamId")
+    @Options(useGeneratedKeys = true, keyProperty = "gbStreamId", keyColumn = "gb_stream_id")
     void batchAdd(List<StreamPushItem> subList);
 
     @Update({"<script>" +
@@ -136,7 +136,7 @@ public interface GbStreamMapper {
             " UPDATE" +
             " gb_stream" +
             " SET longitude=${item.lng}, latitude=${item.lat} " +
-            "WHERE gbId=#{item.id}"+
+            "WHERE gb_id=#{item.id}"+
             "</foreach>" +
             "</script>"})
     int updateStreamGPS(List<GPSMsgInfo> gpsMsgInfos);
