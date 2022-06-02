@@ -85,7 +85,7 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
             sync(device);
         }else {
             UpdateWrapper<Device> updateWrapper = new UpdateWrapper<>();
-            updateWrapper.set("device_id",device.getDeviceId());
+            updateWrapper.eq("device_id",device.getDeviceId());
             deviceMapper.update(device,updateWrapper);
             redisCatchStorage.updateDevice(device);
         }
@@ -115,7 +115,7 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
         device.setOnline("0");
         redisCatchStorage.updateDevice(device);
         UpdateWrapper<Device> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.set("device_id",device.getDeviceId());
+        updateWrapper.eq("device_id",device.getDeviceId());
         deviceMapper.update(device,updateWrapper);
         // 离线释放所有ssrc
         List<SsrcTransaction> ssrcTransactions = streamSession.getSsrcTransactionForAll(deviceId, null, null, null);
@@ -291,7 +291,7 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
 
 
         UpdateWrapper<Device> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.set("device_id",device.getDeviceId());
+        updateWrapper.eq("device_id",device.getDeviceId());
         final int update=deviceMapper.update(device,updateWrapper);
 
         if (update > 0) {
