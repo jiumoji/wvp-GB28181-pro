@@ -248,7 +248,7 @@ public class MediaServerServiceImpl extends ServiceImpl<MediaServerMapper, Media
 
     @Override
     public List<MediaServerItem> getAllFromDatabase() {
-        return mediaServerMapper.selectList(null);
+        return mediaServerMapper.queryAll();
     }
 
     @Override
@@ -568,7 +568,7 @@ public class MediaServerServiceImpl extends ServiceImpl<MediaServerMapper, Media
         queryWrapper.eq("ip", ip);
         queryWrapper.eq("httpPort", port);
         List<MediaServerItem> listOne=mediaServerMapper.selectList(queryWrapper);
-        if (listOne != null&&listOne.get(0)!=null) {
+        if (listOne != null&&listOne.size()>0) {
             result.setCode(-1);
             result.setMsg("此连接已存在");
             return result;
