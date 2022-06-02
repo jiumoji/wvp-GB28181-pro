@@ -1,5 +1,6 @@
 package com.genersoft.iot.vmp.storager.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.genersoft.iot.vmp.common.StreamInfo;
 import com.genersoft.iot.vmp.conf.SipConfig;
 import com.genersoft.iot.vmp.gb28181.bean.*;
@@ -416,10 +417,14 @@ public class VideoManagerStorageImpl implements IVideoManagerStorage {
 		if (device == null) {
 			return false;
 		}
-		device.setOnline(1);
+		device.setOnline("1");
 		logger.info("更新设备在线: " + deviceId);
 		redisCatchStorage.updateDevice(device);
-		return deviceMapper.update(device) > 0;
+		UpdateWrapper<Device> updateWrapper = new UpdateWrapper<>();
+		updateWrapper.set("device_id",device.getDeviceId());
+		final int update=deviceMapper.update(device,updateWrapper);
+
+		return update > 0;
 	}
 
 	/**
@@ -435,9 +440,12 @@ public class VideoManagerStorageImpl implements IVideoManagerStorage {
 		if (device == null) {
 			return false;
 		}
-		device.setOnline(0);
+		device.setOnline("0");
 		redisCatchStorage.updateDevice(device);
-		return deviceMapper.update(device) > 0;
+		UpdateWrapper<Device> updateWrapper = new UpdateWrapper<>();
+		updateWrapper.set("device_id",device.getDeviceId());
+		final int update=deviceMapper.update(device,updateWrapper);
+		return update> 0;
 	}
 
 	/**
