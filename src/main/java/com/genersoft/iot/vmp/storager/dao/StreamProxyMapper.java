@@ -40,21 +40,21 @@ public interface StreamProxyMapper {
     @Delete("DELETE FROM stream_proxy WHERE app=#{app} AND stream=#{stream}")
     int del(String app, String stream);
 
-    @Select("SELECT st.*, pgs.gbId, pgs.name, pgs.longitude, pgs.latitude FROM stream_proxy st LEFT JOIN gb_stream pgs on st.app = pgs.app AND st.stream = pgs.stream order by st.create_time desc")
+    @Select("SELECT st.*, pgs.gb_id, pgs.name, pgs.longitude, pgs.latitude FROM stream_proxy st LEFT JOIN gb_stream pgs on st.app = pgs.app AND st.stream = pgs.stream order by st.create_time desc")
     List<StreamProxyItem> selectAll();
 
-    @Select("SELECT st.*, pgs.gbId, pgs.name, pgs.longitude, pgs.latitude FROM stream_proxy st LEFT JOIN gb_stream pgs on st.app = pgs.app AND st.stream = pgs.stream WHERE st.enable=${enable} order by st.createTime desc")
+    @Select("SELECT st.*, pgs.gb_id, pgs.name, pgs.longitude, pgs.latitude FROM stream_proxy st LEFT JOIN gb_stream pgs on st.app = pgs.app AND st.stream = pgs.stream WHERE st.enable=${enable} order by st.createTime desc")
     List<StreamProxyItem> selectForEnable(boolean enable);
 
-    @Select("SELECT st.*, pgs.gbId, pgs.name, pgs.longitude, pgs.latitude FROM stream_proxy st LEFT JOIN gb_stream pgs on st.app = pgs.app AND st.stream = pgs.stream WHERE st.app=#{app} AND st.stream=#{stream} order by st.create_time desc")
+    @Select("SELECT st.*, pgs.gb_id, pgs.name, pgs.longitude, pgs.latitude FROM stream_proxy st LEFT JOIN gb_stream pgs on st.app = pgs.app AND st.stream = pgs.stream WHERE st.app=#{app} AND st.stream=#{stream} order by st.create_time desc")
     StreamProxyItem selectOne(String app, String stream);
 
-    @Select("SELECT st.*, pgs.gbId, pgs.name, pgs.longitude, pgs.latitude FROM stream_proxy st " +
+    @Select("SELECT st.*, pgs.gb_id, pgs.name, pgs.longitude, pgs.latitude FROM stream_proxy st " +
             "LEFT JOIN gb_stream pgs on st.app = pgs.app AND st.stream = pgs.stream " +
             "WHERE st.enable=${enable} and st.media_server_id = #{id} order by st.create_time desc")
     List<StreamProxyItem> selectForEnableInMediaServer(String id, boolean enable);
 
-    @Select("SELECT st.*, pgs.gbId, pgs.name, pgs.longitude, pgs.latitude FROM stream_proxy st " +
+    @Select("SELECT st.*, pgs.gb_id, pgs.name, pgs.longitude, pgs.latitude FROM stream_proxy st " +
             "LEFT JOIN gb_stream pgs on st.app = pgs.app AND st.stream = pgs.stream " +
             "WHERE st.media_server_id = '${id}' order by st.create_time desc")
     List<StreamProxyItem> selectInMediaServer(String id);
@@ -72,6 +72,6 @@ public interface StreamProxyMapper {
     @Delete("DELETE FROM stream_proxy WHERE enable_remove_none_reader=true AND media_server_id=#{mediaServerId}")
     void deleteAutoRemoveItemByMediaServerId(String mediaServerId);
 
-    @Select("SELECT st.*, pgs.gbId, pgs.name, pgs.longitude, pgs.latitude FROM stream_proxy st LEFT JOIN gb_stream pgs on st.app = pgs.app AND st.stream = pgs.stream WHERE st.enable_remove_none_reader=true AND st.media_server_id=#{mediaServerId} order by st.create_time desc")
+    @Select("SELECT st.*, pgs.gb_id, pgs.name, pgs.longitude, pgs.latitude FROM stream_proxy st LEFT JOIN gb_stream pgs on st.app = pgs.app AND st.stream = pgs.stream WHERE st.enable_remove_none_reader=true AND st.media_server_id=#{mediaServerId} order by st.create_time desc")
     List<StreamProxyItem> selecAutoRemoveItemByMediaServerId(String mediaServerId);
 }
